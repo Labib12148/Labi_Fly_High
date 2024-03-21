@@ -11,14 +11,14 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
 # Game variables
-GRAVITY = 0.25
+GRAVITY = 0.2
 BIRD_WIDTH = 100
 BIRD_HEIGHT = 60
 PIPE_WIDTH = 80
-GAP_HEIGHT = 250
+GAP_HEIGHT = 280
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption('Flappy Bird')
+pygame.display.set_caption('Labi Fly High')
 
 INTRO = 0
 PLAYING = 1
@@ -28,7 +28,7 @@ class Bird:
     def __init__(self):
         self.width = BIRD_WIDTH
         self.height = BIRD_HEIGHT
-        self.x = 150
+        self.x = 80
         self.y = SCREEN_HEIGHT // 2
         self.velocity = 0
         self.image = pygame.image.load("assets/Labi_Fly.png").convert_alpha()
@@ -98,7 +98,7 @@ def intro_screen():
 
 def main():
     bird = Bird()
-    pipes = [Pipe(SCREEN_WIDTH + i * 320) for i in range(3)]
+    pipes = [Pipe(SCREEN_WIDTH + i * 320) for i in range(6)]
     clock = pygame.time.Clock()
     score = 0
     state = INTRO
@@ -158,7 +158,7 @@ def main():
             resume_text = font.render("Press Enter to continue", True, BLACK)
 
             screen.blit(game_over_text, (SCREEN_WIDTH // 2 - game_over_text.get_width() // 2, SCREEN_HEIGHT // 3))
-            screen.blit(title_text, (150, 10))
+            screen.blit(title_text, (120, 10))
             screen.blit(resume_text, (SCREEN_WIDTH // 2 - resume_text.get_width() // 2, SCREEN_HEIGHT - 50))
 
             bird_image_sad = pygame.image.load("assets/Labi_Fly_Sad.png").convert_alpha()
@@ -181,7 +181,7 @@ def main():
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                             bird = Bird()
-                            pipes = [Pipe(SCREEN_WIDTH + i * 200) for i in range(3)]
+                            pipes = [Pipe(SCREEN_WIDTH + i * 300) for i in range(6)]
                             score = 0
                             state = PLAYING
                             wait_for_enter = False
