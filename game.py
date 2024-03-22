@@ -11,7 +11,7 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
 # Game variables
-GRAVITY = 0.2
+GRAVITY = 0.25
 BIRD_WIDTH = 100
 BIRD_HEIGHT = 60
 PIPE_WIDTH = 80
@@ -23,6 +23,8 @@ pygame.display.set_caption('Labi Fly High')
 INTRO = 0
 PLAYING = 1
 GAME_OVER = 2
+bg_music = pygame.mixer.Sound("assets/Audio/mii.mp3")
+bg_music.play(loops=-1)
 
 class Bird:
     def __init__(self):
@@ -31,7 +33,7 @@ class Bird:
         self.x = 80
         self.y = SCREEN_HEIGHT // 2
         self.velocity = 0
-        self.image = pygame.image.load("assets/Labi_Fly.png").convert_alpha()
+        self.image = pygame.image.load("assets/imgs/Labi_Fly.png").convert_alpha()
         self.image = pygame.transform.scale(self.image, (self.width, self.height))
         self.rect = self.image.get_rect(topleft=(self.x, self.y))
 
@@ -52,15 +54,17 @@ class Pipe:
         self.x = x
         self.height = random.randint(100, SCREEN_HEIGHT - GAP_HEIGHT - 100)
         self.passed = False
-        self.pipe_down = pygame.image.load("assets/Pipe_Green_Down.png").convert_alpha()
-        self.pipe_up = pygame.image.load("assets/Pipe_Green_Up.png").convert_alpha()
+        self.pipe_down = pygame.image.load("assets/imgs/Pipe_Green_Down.png").convert_alpha()
+        self.pipe_up = pygame.image.load("assets/imgs/Pipe_Green_Up.png").convert_alpha()
         self.pipe_down = pygame.transform.scale(self.pipe_down, (self.width, self.height))
         self.pipe_up = pygame.transform.scale(self.pipe_up, (self.width, SCREEN_HEIGHT - self.height - GAP_HEIGHT))
         self.rect_down = self.pipe_down.get_rect(topleft=(self.x, 0))
         self.rect_up = self.pipe_up.get_rect(topleft=(self.x, self.height + GAP_HEIGHT))
+        self.points_sound = pygame.mixer.Sound("assets/Audio/points.mp3")
+
 
     def move(self):
-        self.x -= 2
+        self.x -= 3
         self.rect_down.x = self.x
         self.rect_up.x = self.x
 
@@ -76,7 +80,7 @@ def intro_screen():
 
     screen.blit(title_text, (SCREEN_WIDTH // 2 - title_text.get_width() // 2, SCREEN_HEIGHT // 3))
 
-    bird_image = pygame.image.load("assets/Labi_Fly.png").convert_alpha()
+    bird_image = pygame.image.load("assets/imgs/Labi_Fly.png").convert_alpha()
     bird_image = pygame.transform.scale(bird_image, (139, 83))
     bird_rect = bird_image.get_rect(center=(SCREEN_WIDTH // 2, (SCREEN_HEIGHT // 3) + (SCREEN_HEIGHT // 6)))
 
@@ -103,7 +107,7 @@ def main():
     score = 0
     state = INTRO
 
-    background_image = pygame.image.load("assets/sky.jpg").convert()
+    background_image = pygame.image.load("assets/imgs/sky.jpg").convert()
     background_image = pygame.transform.scale(background_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
     while True:
@@ -132,6 +136,7 @@ def main():
                 elif not pipe.passed and bird.rect.x > pipe.rect_down.x + PIPE_WIDTH:
                     pipe.passed = True
                     score += 1
+                    pipe.points_sound.play()
 
             if pipes[-1].x < SCREEN_WIDTH - 300:
                 pipes.append(Pipe(SCREEN_WIDTH))
@@ -161,7 +166,7 @@ def main():
             screen.blit(title_text, (120, 10))
             screen.blit(resume_text, (SCREEN_WIDTH // 2 - resume_text.get_width() // 2, SCREEN_HEIGHT - 50))
 
-            bird_image_sad = pygame.image.load("assets/Labi_Fly_Sad.png").convert_alpha()
+            bird_image_sad = pygame.image.load("assets/imgs/Labi_Fly_Sad.png").convert_alpha()
             bird_image_sad = pygame.transform.scale(bird_image_sad, (139, 83))
             bird_rect = bird_image_sad.get_rect(center=(SCREEN_WIDTH // 2, (SCREEN_HEIGHT // 3) + (SCREEN_HEIGHT // 6)))
 
