@@ -4,14 +4,14 @@ import sys
 
 pygame.init()
 
-SCREEN_WIDTH = 400
-SCREEN_HEIGHT = 600
+SCREEN_WIDTH = 500
+SCREEN_HEIGHT = 700
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
 # Game variables
-GRAVITY = 0.25
+GRAVITY = 0.22
 BIRD_WIDTH = 100
 BIRD_HEIGHT = 60
 PIPE_WIDTH = 80
@@ -52,7 +52,7 @@ class Pipe:
     def __init__(self, x):
         self.width = PIPE_WIDTH
         self.x = x
-        self.height = random.randint(100, SCREEN_HEIGHT - GAP_HEIGHT - 100)
+        self.height = random.randint(50, SCREEN_HEIGHT - GAP_HEIGHT - 50)
         self.passed = False
         self.pipe_down = pygame.image.load("assets/imgs/Pipe_Green_Down.png").convert_alpha()
         self.pipe_up = pygame.image.load("assets/imgs/Pipe_Green_Up.png").convert_alpha()
@@ -84,7 +84,7 @@ def intro_screen():
     bird_image = pygame.transform.scale(bird_image, (139, 83))
     bird_rect = bird_image.get_rect(center=(SCREEN_WIDTH // 2, (SCREEN_HEIGHT // 3) + (SCREEN_HEIGHT // 6)))
 
-    screen.blit(bird_image, (140, 250 ))
+    screen.blit(bird_image, (175, 280 ))
 
     screen.blit(start_text, (SCREEN_WIDTH // 2 - start_text.get_width() // 2, bird_rect.bottom + 20))
     
@@ -102,7 +102,7 @@ def intro_screen():
 
 def main():
     bird = Bird()
-    pipes = [Pipe(SCREEN_WIDTH + i * 320) for i in range(6)]
+    pipes = [Pipe(SCREEN_WIDTH + i * 320) for i in range(5)]
     clock = pygame.time.Clock()
     score = 0
     state = INTRO
@@ -163,14 +163,14 @@ def main():
             resume_text = font.render("Press Enter to continue", True, BLACK)
 
             screen.blit(game_over_text, (SCREEN_WIDTH // 2 - game_over_text.get_width() // 2, SCREEN_HEIGHT // 3))
-            screen.blit(title_text, (120, 10))
+            screen.blit(title_text, (175, 10))
             screen.blit(resume_text, (SCREEN_WIDTH // 2 - resume_text.get_width() // 2, SCREEN_HEIGHT - 50))
 
             bird_image_sad = pygame.image.load("assets/imgs/Labi_Fly_Sad.png").convert_alpha()
             bird_image_sad = pygame.transform.scale(bird_image_sad, (139, 83))
             bird_rect = bird_image_sad.get_rect(center=(SCREEN_WIDTH // 2, (SCREEN_HEIGHT // 3) + (SCREEN_HEIGHT // 6)))
 
-            screen.blit(bird_image_sad, (140, 250 ))
+            screen.blit(bird_image_sad, (175, 280 ))
 
             screen.blit(final_score_text, (SCREEN_WIDTH // 2 - final_score_text.get_width() // 2, bird_rect.bottom + 20))
 
@@ -186,7 +186,7 @@ def main():
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN:
                             bird = Bird()
-                            pipes = [Pipe(SCREEN_WIDTH + i * 300) for i in range(6)]
+                            pipes = [Pipe(SCREEN_WIDTH + i * 300) for i in range(5)]
                             score = 0
                             state = PLAYING
                             wait_for_enter = False
