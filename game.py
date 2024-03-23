@@ -184,7 +184,7 @@ def main():
                         pygame.quit()
                         sys.exit()
                     if event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
+                        if event.key == pygame.K_RETURN:
                             bird = Bird()
                             pipes = [Pipe(SCREEN_WIDTH + i * 300) for i in range(6)]
                             score = 0
